@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obtener Chat ID - Telegram</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: monospace;
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #00ff00;
+        }
+        h1, h2 { margin: 20px 0 10px 0; color: #ffff00; }
+        input, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #3d3d3d;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        button {
+            cursor: pointer;
+            background: #00ff00;
+            color: #1e1e1e;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button:hover { background: #00dd00; }
+        .output {
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 12px;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .warning { color: #ffff00; }
+        .info { color: #00ccff; }
+        .highlight {
+            background: #ffff00;
+            color: #000;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+        .section {
+            background: #1e1e1e;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #00ff00;
+            border-radius: 4px;
+        }
+        .instruction {
+            background: #003300;
+            border-left: 4px solid #00ff00;
+            color: #00ff00;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .step {
+            background: #1a3a1a;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #00ff00;
+        }
+        code {
+            background: #0a0a0a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #ffff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 OBTENER CHAT ID DE TELEGRAM - GUÍA PASO A PASO</h1>
+
+        <div class="instruction">
+            <h2>⚠️ IMPORTANTE - LEE PRIMERO</h2>
+            <p>El error "chat not found" significa que <code>Chat ID</code> está mal o vacío.</p>
+            <p>Sigue EXACTAMENTE estos pasos:</p>
+        </div>
+
+        <h2>📋 Paso 1: Ingresa tu Token</h2>
+        <div class="section">
+            <label>Token del Bot (del BotFather):</label>
+            <input type="text" id="token" value="8882344336:AAF7YqBNYTL7Hb_9dPSicH9da29xEUSImGo" placeholder="Pega tu token aquí">
+            <button onclick="testToken()">✅ Verificar Token</button>
+            <div id="tokenOutput" class="output"></div>
+        </div>
+
+        <h2>📋 Paso 2: Obtén el Chat ID automáticamente</h2>
+        <div class="section">
+            <div class="step">
+                <strong>1️⃣ VE A TELEGRAM</strong>
+                <p>Abre tu bot y envía este comando: <code>/start</code></p>
+                <p>Espera a que el bot responda</p>
+            </div>
+
+            <div class="step">
+                <strong>2️⃣ VUELVE AQUÍ Y PRESIONA EL BOTÓN</strong>
+                <p>Haz click en "Obtener Chat ID"</p>
+                <p>Esto buscará automáticamente tu Chat ID</p>
+            </div>
+
+            <button onclick="getChatId()" style="background: #ff6600; margin-top: 20px;">🔍 OBTENER CHAT ID AUTOMÁTICAMENTE</button>
+            <div id="chatIdOutput" class="output"></div>
+        </div>
+
+        <h2>📋 Paso 3: Copiar Chat ID</h2>
+        <div class="section">
+            <p>Cuando obtengas el Chat ID, cópialo aquí:</p>
+            <label>Tu Chat ID:</label>
+            <input type="text" id="finalChatId" placeholder="Se llenará automáticamente o pega el número aquí">
+            <button onclick="copyToClipboard()">📋 Copiar Chat ID</button>
+        </div>
+
+        <h2>📋 Paso 4: Prueba de Envío</h2>
+        <div class="section">
+            <button onclick="sendTestMessage()" style="background: #00aa00;">📤 ENVIAR MENSAJE DE PRUEBA</button>
+            <div id="testOutput" class="output"></div>
+        </div>
+
+        <h2>🐛 Ayuda adicional</h2>
+        <div class="section">
+            <button onclick="showDebugInfo()">🔧 Mostrar Información de Debug</button>
+            <div id="debugOutput" class="output"></div>
+        </div>
+
+        <div class="instruction">
+            <h2>💡 ERRORES COMUNES</h2>
+            <p><strong>❌ "Unauthorized":</strong> El token está mal (cópialo de nuevo del BotFather)</p>
+            <p><strong>❌ "Chat not found":</strong> El Chat ID está mal o el bot no está en el grupo/chat</p>
+            <p><strong>❌ "Bad Request":</strong> Revisa que el token no tenga espacios</p>
+            <p><strong>❓ ¿Chat privado o grupo?</strong></p>
+            <ul>
+                <li>Si es GRUPO PRIVADO: Chat ID empieza con <code>-100</code></li>
+                <li>Si es CHAT DIRECTO: Chat ID es solo un número</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const clearOutput = (id) => {
+            document.getElementById(id).innerHTML = '';
+        };
+
+        const log = (id, text, type = 'info') => {
+            const element = document.getElementById(id);
+            const icons = {
+                'success': '✅',
+                'error': '❌',
+                'warning': '⚠️',
+                'info': 'ℹ️'
+            };
+            const colors = {
+                'success': 'color: #00ff00;',
+                'error': 'color: #ff0000;',
+                'warning': 'color: #ffff00;',
+                'info': 'color: #00ccff;'
+            };
+            element.innerHTML += `<span style="${colors[type]}">${icons[type]} ${text}</span>\n`;
+            element.scrollTop = element.scrollHeight;
+        };
+
+        async function testToken() {
+            clearOutput('tokenOutput');
+            const token = document.getElementById('token').value.trim();
+            
+            if (!token) {
+                log('tokenOutput', 'Ingresa el token primero', 'error');
+                return;
+            }
+
+            log('tokenOutput', 'Verificando token...', 'info');
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+                const data = await response.json();
+
+                if (data.ok) {
+                    log('tokenOutput', `✅ Bot encontrado: @${data.result.username}`, 'success');
+                    log('tokenOutput', `ID del bot: ${data.result.id}`, 'success');
+                } else {
+                    log('tokenOutput', `Error: ${data.description}`, 'error');
+                }
+            } catch (err) {
+                log('tokenOutput', `Error de conexión: ${err.message}`, 'error');
+            }
+        }
+
+        async function getChatId() {
+            clearOutput('chatIdOutput');
+            const token = document.getElementById('token').value.trim();
+            
+            if (!token) {
+                log('chatIdOutput', 'Ingresa el token primero', 'error');
+                return;
+            }
+
+            log('chatIdOutput', 'Buscando actualizaciones...', 'info');
+            log('chatIdOutput', 'Si no aparece nada, envía /start a tu bot en Telegram', 'warning');
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
+                const data = await response.json();
+
+                if (!data.ok) {
+                    log('chatIdOutput', `Error: ${data.description}`, 'error');
+                    return;
+                }
+
+                if (data.result.length === 0) {
+                    log('chatIdOutput', 'No hay actualizaciones. Envía /start a tu bot primero', 'warning');
+                    return;
+                }
+
+                // Buscar el último mensaje
+                const updates = data.result;
+                let chatId = null;
+                let chatType = 'unknown';
+                let userName = '';
+
+                for (let i = updates.length - 1; i >= 0; i--) {
+                    const update = updates[i];
+                    
+                    if (update.message?.chat?.id) {
+                        chatId = update.message.chat.id;
+                        chatType = update.message.chat.type;
+                        userName = update.message.from?.first_name || update.message.from?.username || '';
+                        break;
+                    }
+                }
+
+                if (chatId) {
+                    log('chatIdOutput', `Encontrado Chat ID: <span class="highlight">${chatId}</span>`, 'success');
+                    log('chatIdOutput', `Tipo de chat: ${chatType}`, 'info');
+                    if (userName) log('chatIdOutput', `Usuario: ${userName}`, 'info');
+                    
+                    // Llenar el campo automáticamente
+                    document.getElementById('finalChatId').value = chatId;
+                    
+                    // Mostrar el JSON completo
+                    log('chatIdOutput', `\nÚltimo mensaje:\n${JSON.stringify(updates[updates.length - 1], null, 2)}`, 'info');
+                } else {
+                    log('chatIdOutput', 'No se encontró Chat ID. Intenta de nuevo', 'error');
+                }
+            } catch (err) {
+                log('chatIdOutput', `Error: ${err.message}`, 'error');
+            }
+        }
+
+        async function sendTestMessage() {
+            clearOutput('testOutput');
+            const token = document.getElementById('token').value.trim();
+            const chatId = document.getElementById('finalChatId').value.trim();
+            
+            if (!token || !chatId) {
+                log('testOutput', 'Ingresa Token y Chat ID primero', 'error');
+                return;
+            }
+
+            log('testOutput', `Enviando a Chat ID: ${chatId}`, 'info');
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: '✅ *Funcionando correctamente*\n\nEste mensaje fue enviado desde tu página web.',
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.ok) {
+                    log('testOutput', '✅ Mensaje enviado exitosamente', 'success');
+                    log('testOutput', `Message ID: ${data.result.message_id}`, 'success');
+                    log('testOutput', 'Revisa tu chat en Telegram', 'info');
+                } else {
+                    log('testOutput', `Error: ${data.description}`, 'error');
+                }
+            } catch (err) {
+                log('testOutput', `Error: ${err.message}`, 'error');
+            }
+        }
+
+        function copyToClipboard() {
+            const chatId = document.getElementById('finalChatId').value;
+            if (!chatId) {
+                alert('Primero obtén el Chat ID');
+                return;
+            }
+            navigator.clipboard.writeText(chatId);
+            alert(`Chat ID copiado: ${chatId}`);
+        }
+
+        function showDebugInfo() {
+            clearOutput('debugOutput');
+            const token = document.getElementById('token').value;
+            const chatId = document.getElementById('finalChatId').value;
+            
+            log('debugOutput', `Token: ${token.substring(0, 30)}...`, 'info');
+            log('debugOutput', `Chat ID: ${chatId || 'NO DEFINIDO'}`, 'warning');
+            log('debugOutput', `User Agent: ${navigator.userAgent}`, 'info');
+            log('debugOutput', `Timestamp: ${new Date().toISOString()}`, 'info');
+        }
+
+        // Al cargar la página
+        window.addEventListener('load', () => {
+            log('tokenOutput', 'Página cargada. Comienza con el PASO 1', 'success');
+        });
+    </script>
+</body>
+</html>

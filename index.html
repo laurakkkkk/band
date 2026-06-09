@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tarjeta Mundialista - Crédito</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9f9f9;
+        }
+
+        .wrapper {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: #003d82;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .logo img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-ingresar {
+            background-color: white;
+            color: #003d82;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .menu-icon {
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .main {
+            flex: 1;
+            padding: 0px 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* PRODUCTO CARD */
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: #a8e6c4;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .product-name {
+            font-size: 28px;
+            font-weight: 900;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            margin-top: 2px;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .feature-text strong {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .buttons-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background-color: #0043a9;
+            color: white;
+            padding: 12px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #003285;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0043a9;
+            padding: 12px;
+            border-radius: 25px;
+            border: 2px solid #0043a9;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f5f5;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .product-name {
+                font-size: 24px;
+            }
+
+            .main {
+                padding: 15px 12px;
+            }
+
+            .product-card {
+                padding: 16px;
+            }
+        }
+
+        /* LUIS DÍAZ SECTION */
+        .luis-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        .luis-image {
+            width: 100%;
+            height: auto;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .luis-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .luis-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .luis-feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .luis-feature {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .luis-bullet {
+            color: #0043a9;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .luis-feature-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .luis-feature-text strong {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .luis-link {
+            color: #0043a9;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .luis-link:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+        .footer-container {
+            background: linear-gradient(135deg, #003d82 0%, #0052a8 100%);
+            padding: 40px 20px 30px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .footer-aval {
+            display: none;
+        }
+
+        .footer-brand {
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 11px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .footer-separator {
+            border-top: 1px solid rgba(255,255,255,0.3);
+            margin: 25px 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            padding-top: 10px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .social-icon:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: white;
+            fill: white;
+            stroke-width: 0.5;
+        }
+
+        /* RESPONSIVE DESKTOP 1024px+ */
+        @media (min-width: 1024px) {
+            .header {
+                padding: 16px 40px;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .main {
+                padding: 40px 20px;
+            }
+
+            .container {
+                max-width: 900px;
+            }
+
+            .product-card {
+                padding: 40px;
+                margin-bottom: 40px;
+            }
+
+            .product-badge {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .product-name {
+                font-size: 36px;
+                margin-bottom: 16px;
+            }
+
+            .product-description {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            .product-image {
+                margin-bottom: 30px;
+                max-height: 400px;
+            }
+
+            .feature-list {
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .feature {
+                gap: 16px;
+            }
+
+            .feature-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .feature-text {
+                font-size: 15px;
+            }
+
+            .buttons-group {
+                gap: 16px;
+                flex-direction: row;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                padding: 14px 32px;
+                font-size: 16px;
+                flex: 1;
+            }
+
+            .luis-section {
+                padding: 40px;
+                margin-bottom: 40px;
+            }
+
+            .luis-image {
+                height: auto;
+                max-height: 350px;
+                object-fit: contain;
+                margin-bottom: 30px;
+            }
+
+            .luis-title {
+                font-size: 28px;
+                margin-bottom: 16px;
+            }
+
+            .luis-description {
+                font-size: 16px;
+                margin-bottom: 24px;
+            }
+
+            .luis-feature-list {
+                gap: 20px;
+                margin-bottom: 24px;
+            }
+
+            .luis-link {
+                font-size: 15px;
+            }
+
+            .footer-container {
+                padding: 60px 20px 40px;
+            }
+
+            .footer-content {
+                max-width: 900px;
+            }
+
+            .footer-logo {
+                height: 100px;
+                margin-bottom: 24px;
+            }
+
+            .footer-text {
+                font-size: 13px;
+                margin-bottom: 30px;
+            }
+
+            .social-links {
+                gap: 20px;
+                padding-top: 15px;
+            }
+
+            .social-icon {
+                width: 44px;
+                height: 44px;
+            }
+
+            .social-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .header {
+                padding: 16px 60px;
+            }
+
+            .main {
+                padding: 50px 40px;
+            }
+
+            .container {
+                max-width: 1000px;
+            }
+
+            .product-card {
+                padding: 50px;
+            }
+
+            .luis-section {
+                padding: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- HEADER -->
+        <div class="header">
+            <img src="image.png" alt="Banco de Bogotá" class="logo">
+            <div class="header-buttons">
+                <button class="btn-ingresar" onclick="window.location.href='datos.html'">Ingresar <i class='bx bx-chevron-down'></i></button>
+                <div class="menu-icon">
+                    <div style="font-size: 20px;">☰</div>
+                    <div>Menú</div>
+                </div>
+            </div>
+        </div>
+
+        <main class="main">
+            <div class="container">
+                <!-- TAB 1: MUNDIALISTA -->
+                <div class="tab-content active">
+                    <div class="product-card">
+                        <div class="product-badge">Edición Mundialista</div>
+                        <h2 class="product-name">Tarjeta Mundialista</h2>
+                        <p class="product-description">Vive la emoción del fútbol con beneficios exclusivos. Tu compañera para celebrar cada gol.</p>
+
+                        <img src="tarjeta.png" alt="Tarjeta Mundialista" class="product-image">
+
+                        <div class="buttons-group">
+                            <button class="btn-primary" onclick="window.location.href='datos.html'">Solicítala aquí</button>
+                            <button class="btn-secondary" onclick="window.location.href='datos.html'">Conoce más</button>
+                        </div>
+
+                        <div class="feature-list">
+                            <div class="feature">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="4" width="20" height="16" rx="2" stroke="#0043a9" stroke-width="2"/>
+                                    <path d="M2 10H22" stroke="#0043a9" stroke-width="2"/>
+                                    <path d="M6 15H10" stroke="#0043a9" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <div class="feature-text">
+                                    <strong>Sin pago por 2 meses:</strong> Disfruta tu compra ahora, paga después.
+                                </div>
+                            </div>
+
+                            <div class="feature">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#0043a9"/>
+                                </svg>
+                                <div class="feature-text">
+                                    <strong>Cuota de manejo gratis 6 meses:</strong> Luego solo $33.100 anuales.
+                                </div>
+                            </div>
+
+                            <div class="feature">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7.17 4.5L5.5 9h12l-1.68-4.5H7.17zM19 3H5c-1.1 0-2 .9-2 2v14h2c0 1.1.89 2 2 2s2-.9 2-2h8c0 1.1.89 2 2 2s2-.9 2-2h2V5c0-1.1-.9-2-2-2z" fill="#0043a9"/>
+                                </svg>
+                                <div class="feature-text">
+                                    <strong>Cashback en supermercados:</strong> Recupera 2% en cada compra.
+                                </div>
+                            </div>
+
+                            <div class="feature">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13h4v6h-4zm0 8h4v2h-4z" fill="#0043a9"/>
+                                </svg>
+                                <div class="feature-text">
+                                    <strong>Acceso VIP a eventos:</strong> Entrenamientos y partidos exclusivos.
+                                </div>
+                            </div>
+
+                            <div class="feature">
+                                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#0043a9"/>
+                                </svg>
+                                <div class="feature-text">
+                                    <strong>Puntos bonus infinitos:</strong> Acumula recompensas en cada transacción.
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                </div>
+
+                <!-- SECCIÓN LUIS DÍAZ -->
+                <div class="luis-section">
+                    <img src="luis.webp" alt="Luis Díaz" class="luis-image">
+                    <h3 class="luis-title">Luis Díaz</h3>
+                    <p class="luis-description">Vive la experiencia de ser embajador de los bancos AVAL. Acceso exclusivo a eventos, beneficios VIP y recompensas especiales.</p>
+                    
+                    <div class="luis-feature-list">
+                        <div class="luis-feature">
+                            <span class="luis-bullet">•</span>
+                            <div class="luis-feature-text">
+                                <strong>Salas VIP Exclusive:</strong> Accede a más de 1.600 salas VIP en más de 700 ciudades.
+                            </div>
+                        </div>
+                        <div class="luis-feature">
+                            <span class="luis-bullet">•</span>
+                            <div class="luis-feature-text">
+                                <strong>Ofertas en restaurantes:</strong> Encuentra promociones exclusivas en restaurantes y cafeterías.
+                            </div>
+                        </div>
+                        <div class="luis-feature">
+                            <span class="luis-bullet">•</span>
+                            <div class="luis-feature-text">
+                                <strong>Experiencias premium:</strong> Disfruta beneficios especiales en spas y entretenimiento.
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="luis-link">Conoce más ›</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer-container">
+            <div class="footer-content">
+                <img src="bancobog.png" alt="Banco de Bogotá" class="footer-logo">
+                
+                <div class="footer-text">
+                    © 2024 Banco de Bogotá<br>
+                    Vigilado por la Superintendencia Financiera de Colombia
+                </div>
+
+                <div class="footer-separator"></div>
+
+                <div class="social-links">
+                    <div class="social-icon" title="Facebook">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5c-.563-.074-1.396-.079-2.885-.079-3.476 0-5.115 2.365-5.115 6.648v1.431z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="social-icon" title="Instagram">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 110-2.88 1.44 1.44 0 010 2.88z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="social-icon" title="LinkedIn">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667h-3.554v-11.452h3.414v1.561h.048c.476-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 9.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 11.019h-3.565v-11.452h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="social-icon" title="Twitter">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="social-icon" title="TikTok">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.66 1.94 2.89 2.89 0 015.66-1.94V9.01a6.35 6.35 0 015.63 6.01v-3.37a6.26 6.26 0 01-3.45-5.95zm4.52-4.09v3.42a6.26 6.26 0 01-4.53 1.73v-3.45a2.47 2.47 0 014.53-1.7z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="social-icon" title="YouTube">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function solicitarTarjeta() {
+            alert('¡Solicitud registrada! Te contactaremos pronto.');
+        }
+
+        function verMas() {
+            alert('Más información disponible en nuestra plataforma.');
+        }
+    </script>
+</body>
+</html>
